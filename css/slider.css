@@ -1,0 +1,139 @@
+html {
+    /*min-height: 1000px;*/
+}
+
+input[type='range'] {
+    -webkit-appearance: none !important;
+    -webkit-transform:rotate(90deg);
+    -webkit-border-radius: 5px;
+    background-color: rgb(53, 135, 212);
+    height: 8px;
+    width: 360px;
+    position: absolute;
+    margin-left: 454px;
+    margin-top: 300px;
+}
+
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    -webkit-border-radius: 15px;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#bbb), to(#888));
+    border: 1px solid #000;
+    height: 20px;
+    width: 12px;
+}
+
+#range {
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+    font: 20px sans-serif;
+    font-weight: bold;
+    position: absolute;
+    margin-left: 610px;
+    margin-top: 70px;
+    width: 40px;
+    height: 30px;
+    border:3px solid black;
+    border-radius: 100%;
+    padding-top: 10px;
+    background-color: white;
+}
+
+#range:active {
+    background-color: white;
+    color: black;
+}
+
+#range:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+body {
+    font: 10px sans-serif;
+}
+
+.chart {
+    background-color: #d9d9d9;
+    border-style: solid;
+}
+
+.axis path, .axis line, {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+    stroke-width: 1;
+}
+
+.xaxis, .yaxis {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+    font-color: #A8A;
+    stroke-width: 1px;
+}
+
+.dot {
+    stroke: #000;
+    stroke-width: 1.5;
+    opacity: 0.8;
+}
+
+.dot:hover {
+    opacity: 1;
+    stroke-width: 1.5;
+    /*stroke: #000;*/
+}
+
+.line {
+    stroke: #000;
+}
+
+
+div.tooltip {
+    position: absolute;
+    text-align: left;
+    padding: 2px;
+    font: 12px sans-serif;
+    background: #EDEDED;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.label {
+    font-size: 1.3em;
+}
+
+.d3-tip {
+    line-height: 1;
+    font-weight: bold;
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
+}

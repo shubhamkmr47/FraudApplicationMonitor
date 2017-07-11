@@ -1,0 +1,45 @@
+https://peteris.rocks/blog/htop/
+
+https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs
+
+http://www.deonsworld.co.za/2012/12/20/understanding-and-using-htop-monitor-system-resources/
+
+https://codeahoy.com/2017/01/20/hhtop-explained-visually/
+
+glances --browser
+
+psutil (process and system utilities) is a cross-platform library for retrieving information on running processes and system utilization (CPU, memory, disks, network, sensors) in Python.
+
+It is useful mainly for system monitoring, profiling and limiting process resources and management of running processes. It implements many functionalities offered by command line tools such as: ps, top, lsof, netstat, ifconfig, who, df, kill, free, nice, ionice, iostat, iotop, uptime, pidof, tty, taskset, pmap.
+
+It currently supports Linux, Windows, OSX, Sun Solaris, FreeBSD, OpenBSD and NetBSD, both 32-bit and 64-bit architectures, with Python versions from 2.6 to 3.6 (users of Python 2.4 and 2.5 may use 2.1.3 version). PyPy is also known to work.
+
+https://datascience.stackexchange.com/questions/6547/open-source-anomaly-detection-in-python
+
+one classification - SVM
+
+http://scikit-learn.org/stable/modules/svm.html#svm
+https://www.r-bloggers.com/micad-a-new-algorithmr-package-for-anomaly-detection/
+https://rdrr.io/rforge/IsolationForest/man/AnomalyScore.html
+https://github.com/Zelazny7/isofor/tree/master/R
+https://www.rdocumentation.org/packages/partykit/versions/1.1-1/topics/cforest
+
+Plots:
+http://square.github.io/cubism/
+http://bl.ocks.org/DStruths/9c042e3a6b66048b5bd4
+https://www.visualcinnamon.com/2013/09/making-d3-radar-chart-look-bit-better.html
+
+http://bl.ocks.org/GerHobbelt/3071239
+
+http://www.coppelia.io/2014/07/an-a-to-z-of-extra-features-for-the-d3-force-layout/
+http://www.redotheweb.com/CodeFlower/
+
+
+Scikit Learn:
+http://scikit-learn.org/stable/preface.html
+http://scikit-learn.org/stable/index.html
+http://scikit-learn.org/stable/user_guide.html#user-guide
+
+D3JS
+http://bl.ocks.org/WilliamQLiu/bd12f73d0b79d70bfbae
+http://bl.ocks.org/darrenjaworski/5544599
