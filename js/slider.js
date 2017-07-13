@@ -1,6 +1,6 @@
 function plotClusters() {
 
-    var filename = "./../data/slider.json";
+    var filename = "./../data/slider2.json";
 
     var margin = {
             top: 30,
@@ -14,16 +14,17 @@ function plotClusters() {
         maxY = 0;
 
     var x = d3.scale.linear()
+        .domain([0, 100])
         .range([0, width]);
 
     var y = d3.scale.linear()
+        .domain([0, 100])
         .range([height, 0]);
 
     var div = d3.select("body")
         .append("div");
 
     var fill = d3.scale.category10();
-    // var fill = d3.scale.category20();
 
     var xAxis = d3.svg.axis()
         .scale(x)
@@ -33,11 +34,18 @@ function plotClusters() {
         .scale(y)
         .orient("left");
 
+    var zoom = d3.behavior.zoom()
+        .x(x)
+        .y(y)
+        .scaleExtent([1, 10])
+        .on("zoom", zoomed);
+
     var svg = d3.select("#chart")
         .append("svg")
         .attr("class", "chart")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
+        .call(zoom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -51,16 +59,16 @@ function plotClusters() {
 
     d3.json(filename, function(error, data) {
 
-        maxX = d3.max(data, function(d) {
-            return d.cpu1;
-        });
-        maxY = d3.max(data, function(d) {
-            return d.ram1;
-        });
-        // alert(a);
-
-        x.domain([0, Math.min(100, maxX + 5)]).nice();
-        y.domain([0, Math.min(100, maxY + 5)]).nice();
+        // maxX = d3.max(data, function(d) {
+        //     return d.cpu1;
+        // });
+        // maxY = d3.max(data, function(d) {
+        //     return d.ram1;
+        // });
+        // // alert(a);
+        //
+        // x.domain([0, Math.min(100, maxX + 5)]).nice();
+        // y.domain([0, Math.min(100, maxY + 5)]).nice();
 
         //x axis
         svg.append("g")
@@ -175,19 +183,27 @@ function plotClusters() {
                     return y(val);
                 })
             .attr("stroke-dasharray", function(d) {
-                return d.net1*2;
+                return d.net1 * 2;
             })
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide)
-            .style("fill",
-                function(d) {
-                    return fill(d.type1);
-                })
             .style("opacity", function(d) {
                 if ("cpu1" in d)
                     return 0.8;
                 return 0;
-            });
+            })
+            .style("fill",
+                function(d) {
+                    var index = $("#slider").val(),
+                        score = "score" + index;
+                    return fill(d.type1);
+                })
+            .each(function(d) {
+                var sel = d3.select(this);
+                if (d.score1 == -1) {
+                    blink(sel);
+                }
+            })
 
         svg.append("defs").selectAll("marker")
             .data(["suit", "licensing", "resolved"])
@@ -199,8 +215,8 @@ function plotClusters() {
             .attr("viewBox", "0 -5 10 10")
             .attr("refX", 22)
             .attr("refY", 0)
-            .attr("markerWidth", 12)
-            .attr("markerHeight", 12)
+            .attr("markerWidth", 7)
+            .attr("markerHeight", 7)
             .attr("orient", "auto")
             .append("path")
             .attr("d", "M0,-5L10,0L0,5 L10,0 L0, -5")
@@ -216,28 +232,28 @@ function plotClusters() {
         });
 
         update = function() {
-            var index = $("#slider").val(),
-                xval = "cpu" + index,
-                yval = "ram" + index;
-            maxX = d3.max(data, function(d) {
-                return d[xval];
-            });
-            maxY = d3.max(data, function(d) {
-                return d[yval];
-            });
-            x.domain([0, Math.min(100, maxX + 5)]).nice();
-            y.domain([0, Math.min(100, maxY + 5)]).nice();
+            var index = $("#slider").val();
+            //     xval = "cpu" + index,
+            //     yval = "ram" + index;
+            // maxX = d3.max(data, function(d) {
+            //     return d[xval];
+            // });
+            // maxY = d3.max(data, function(d) {
+            //     return d[yval];
+            // });
+            // x.domain([0, Math.min(100, maxX + 5)]).nice();
+            // y.domain([0, Math.min(100, maxY + 5)]).nice();
 
             d3.select(".yaxis")
-                .transition().duration(2000)
+                // .transition().duration(2000)
                 .call(yAxis);
 
             d3.select(".xaxis")
-                .transition().duration(2000)
+                // .transition().duration(2000)
                 .call(xAxis);
 
             d3.selectAll(".line")
-                .transition().duration(2000)
+                // .transition().duration(2000)
                 .attr("x1", function(d) {
                     var xval = "cpu" + index;
                     if (xval in d)
@@ -282,7 +298,7 @@ function plotClusters() {
             d3.selectAll(".dot")
                 // .transition()
                 // .duration(1000)
-                .transition().duration(2000)
+                // .transition().duration(2000)
                 .attr("r",
                     function(d) {
                         var val = 7;
@@ -319,12 +335,13 @@ function plotClusters() {
                 .attr("stroke-dasharray", function(d) {
                     var index = $("#slider").val(),
                         val = "net" + index;
-                    return d[val]*2;
+                    return d[val] * 2;
                 })
                 .style("fill",
                     function(d) {
-                        var index = $("#slider").val();
-                        index = "type" + index;
+                        var index = $("#slider").val(),
+                            score = "score" + index,
+                            index = "type" + index;
                         return fill(d[index]);
                     })
                 .style("opacity", function(d) {
@@ -335,8 +352,43 @@ function plotClusters() {
                         return 0.8;
                     }
                     return 0;
-                });
+                })
+                .each(function(d) {
+                    var sel = d3.select(this),
+                        index = $("#slider").val(),
+                        score = "score" + index;
+                    if (d[score] == -1) {
+                        blink(sel);
+                    }
 
+                });
         };
     });
+
+    d3.select("#range").on("click", reset);
+
+    function zoomed() {
+        update();
+        svg.select(".xaxis").call(xAxis);
+        svg.select(".yaxis").call(yAxis);
+    }
+
+    function reset() {
+        d3.transition().duration(750).tween("zoom", function() {
+            var ix = d3.interpolate(x.domain(), [0, 100]),
+                iy = d3.interpolate(y.domain(), [0, 100]);
+            return function(t) {
+                zoom.x(x.domain(ix(t))).y(y.domain(iy(t)));
+                zoomed();
+            };
+        });
+    }
+}
+
+function blink(sel) {
+    sel.transition().duration(500).style("opacity", 0.3)
+        .transition().duration(500).style("opacity", 0.8)
+        .each("end", function() {
+            blink(sel);
+        });
 }

@@ -24,33 +24,27 @@ input[type='range']::-webkit-slider-thumb {
 }
 
 #range {
+    background-color: #4CAF50;
+    font-size: 25px;
+    color: #FFFFFF;
+    width: 50px;
+    height: 40px;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
     -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
+    transition-duration: 0.2s;
     cursor: pointer;
-    font: 20px sans-serif;
-    font-weight: bold;
     position: absolute;
+    padding-top: 10px;
     margin-left: 610px;
     margin-top: 70px;
-    width: 40px;
-    height: 30px;
-    border:3px solid black;
-    border-radius: 100%;
-    padding-top: 10px;
-    background-color: white;
 }
 
-#range:active {
-    background-color: white;
-    color: black;
+#range:hover{
+    background: #808080;
 }
 
-#range:hover {
-    background-color: #4CAF50;
-    color: white;
+#range:active{
+    background: #A8A;
 }
 
 body {
@@ -67,14 +61,6 @@ body {
     stroke: #000;
     shape-rendering: crispEdges;
     stroke-width: 1;
-}
-
-.xaxis, .yaxis {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-    font-color: #A8A;
-    stroke-width: 1px;
 }
 
 .dot {
