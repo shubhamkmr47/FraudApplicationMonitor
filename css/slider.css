@@ -6,12 +6,14 @@ input[type='range'] {
     -webkit-appearance: none !important;
     -webkit-transform:rotate(90deg);
     -webkit-border-radius: 5px;
-    background-color: rgb(53, 135, 212);
-    height: 8px;
+    background-color: #e6e6e6;
+    height: 10px;
     width: 360px;
     position: absolute;
     margin-left: 454px;
     margin-top: 300px;
+    border: 1.2px solid #000;
+    background-image: -webkit-gradient(linear, top, bottom, from(#bbb), to(#e6e6e6));
 }
 
 input[type='range']::-webkit-slider-thumb {
@@ -23,7 +25,30 @@ input[type='range']::-webkit-slider-thumb {
     width: 12px;
 }
 
-#range {
+#range{
+    position: absolute;
+    padding-top: 10px;
+    margin-left: 610px;
+    margin-top: 60px;
+}
+
+#range:hover{
+    background: #33cc33;
+}
+
+#play{
+    position: absolute;
+    padding-top: 10px;
+    margin-left: 610px;
+    margin-top: 500px;
+    background-color: #1aa3ff;
+}
+
+#play:hover{
+    background: #4ddbff;
+}
+
+.button {
     background-color: #4CAF50;
     font-size: 25px;
     color: #FFFFFF;
@@ -31,29 +56,20 @@ input[type='range']::-webkit-slider-thumb {
     height: 40px;
     text-align: center;
     -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.2s;
+    transition-duration: 0.4s;
     cursor: pointer;
-    position: absolute;
-    padding-top: 10px;
-    margin-left: 610px;
-    margin-top: 70px;
+    border-radius: 20%;
 }
 
-#range:hover{
-    background: #808080;
-}
-
-#range:active{
-    background: #A8A;
-}
 
 body {
-    font: 10px sans-serif;
+    font: 12px sans-serif;
 }
 
 .chart {
     background-color: #d9d9d9;
     border-style: solid;
+    border-width: thin;
 }
 
 .axis path, .axis line, {
@@ -75,12 +91,17 @@ body {
     /*stroke: #000;*/
 }
 
+.point {
+  fill: steelblue;
+  stroke: #000;
+}
+
 .line {
     stroke: #000;
 }
 
 
-div.tooltip {
+/*div.tooltip {
     position: absolute;
     text-align: left;
     padding: 2px;
@@ -89,13 +110,17 @@ div.tooltip {
     border: 0px;
     border-radius: 8px;
     pointer-events: none;
-}
+}*/
 
 .label {
     font-size: 1.3em;
 }
 
-.d3-tip {
+.name {
+    font-size: 10px;
+}
+
+/*.d3-tip {
     line-height: 1;
     font-weight: bold;
     padding: 5px;
@@ -104,7 +129,6 @@ div.tooltip {
     border-radius: 2px;
 }
 
-/* Creates a small triangle extender for the tooltip */
 .d3-tip:after {
     box-sizing: border-box;
     display: inline;
@@ -122,4 +146,4 @@ div.tooltip {
     margin: -1px 0 0 0;
     top: 100%;
     left: 0;
-}
+}*/
