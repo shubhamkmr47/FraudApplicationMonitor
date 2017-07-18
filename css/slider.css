@@ -7,10 +7,10 @@ input[type='range'] {
     -webkit-transform:rotate(90deg);
     -webkit-border-radius: 5px;
     background-color: #e6e6e6;
-    height: 10px;
-    width: 360px;
+    height: 7px;
+    width: 200px;
     position: absolute;
-    margin-left: 454px;
+    margin-left: 520px;
     margin-top: 300px;
     border: 1.2px solid #000;
     background-image: -webkit-gradient(linear, top, bottom, from(#bbb), to(#e6e6e6));
@@ -26,10 +26,7 @@ input[type='range']::-webkit-slider-thumb {
 }
 
 #range{
-    position: absolute;
-    padding-top: 10px;
-    margin-left: 610px;
-    margin-top: 60px;
+    margin-top: 170px;
 }
 
 #range:hover{
@@ -37,10 +34,7 @@ input[type='range']::-webkit-slider-thumb {
 }
 
 #play{
-    position: absolute;
-    padding-top: 10px;
-    margin-left: 610px;
-    margin-top: 500px;
+    margin-top: 410px;
     background-color: #1aa3ff;
 }
 
@@ -48,12 +42,25 @@ input[type='range']::-webkit-slider-thumb {
     background: #4ddbff;
 }
 
+#reset{
+    margin-top: 470px;
+    background-color: #ff4d4d;
+}
+
+#reset:hover{
+    background: #ff0000;
+}
+
 .button {
+    position: absolute;
+    margin-left: 606px;
+    padding-top: 5px;
     background-color: #4CAF50;
-    font-size: 25px;
+    font-size: 15px;
+    font-weight: bold;
     color: #FFFFFF;
-    width: 50px;
-    height: 40px;
+    width: 30px;
+    height: 23px;
     text-align: center;
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
@@ -70,6 +77,20 @@ body {
     background-color: #d9d9d9;
     border-style: solid;
     border-width: thin;
+}
+
+.information{
+    /*background-color: lightblue;*/
+    border-style: solid;
+    border-width: thin;
+    padding-top: 10px;
+    width: 580px;
+    height: 75px;
+    padding-left: 10px;
+    position: absolute;
+    margin-left: 700px;
+    margin-top: -90px;
+    font-weight: bold;
 }
 
 .axis path, .axis line, {
@@ -100,18 +121,6 @@ body {
     stroke: #000;
 }
 
-
-/*div.tooltip {
-    position: absolute;
-    text-align: left;
-    padding: 2px;
-    font: 12px sans-serif;
-    background: #EDEDED;
-    border: 0px;
-    border-radius: 8px;
-    pointer-events: none;
-}*/
-
 .label {
     font-size: 1.3em;
 }
@@ -119,31 +128,3 @@ body {
 .name {
     font-size: 10px;
 }
-
-/*.d3-tip {
-    line-height: 1;
-    font-weight: bold;
-    padding: 5px;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    border-radius: 2px;
-}
-
-.d3-tip:after {
-    box-sizing: border-box;
-    display: inline;
-    font-size: 10px;
-    width: 100%;
-    line-height: 1;
-    color: rgba(0, 0, 0, 0.8);
-    content: "\25BC";
-    position: absolute;
-    text-align: center;
-}
-
-/* Style northward tooltips differently */
-.d3-tip.n:after {
-    margin: -1px 0 0 0;
-    top: 100%;
-    left: 0;
-}*/

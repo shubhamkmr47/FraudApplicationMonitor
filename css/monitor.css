@@ -4,21 +4,18 @@ body {
 
 #monitor{
     position: absolute;
-    margin-left: 620px;
-    border-style: solid;
-    border-width: thin;
+    margin-left: 700px;
+    margin-top: -603px;
 }
 
 .monitor {
-    /*background-color: lightblue;*/
-    /*border-style: solid;*/
-    /*border-width: thin;*/
+
 }
 
 .axis path,
-.axis line,
+.axis moni,
 .axis1 path,
-.axis1 line {
+.axis1 moni {
   fill: none;
   stroke: #E6E7E8;
   shape-rendering: crispEdges;
@@ -28,7 +25,7 @@ body {
   display: none;
 }
 
-.line {
+.moni {
   fill: none;
   stroke-width: 1.5px;
 }

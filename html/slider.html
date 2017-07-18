@@ -1,31 +1,59 @@
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
+
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<title>AuthBase: System Process Data</title>
-	<link rel="stylesheet" type="text/css" href="./../css/slider.css">
-	<!-- <link rel="stylesheet" type="text/css" href="./../css/monitor.css"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>AuthBase: System Process Data</title>
+    <link rel="stylesheet" type="text/css" href="./../css/slider.css">
+    <link rel="stylesheet" type="text/css" href="./../css/monitor.css">
 
-	<script src="./../lib/d3.v3.min.js"></script>
-	<script src="./../lib/jquery.min.js"></script>
-	<script src="./../lib/d3.tip.v0.6.3.js"></script>
+    <script src="./../lib/d3.v3.min.js"></script>
+    <script src="./../lib/jquery.min.js"></script>
+    <script src="./../lib/d3.tip.v0.6.3.js"></script>
 
-	<script src="./../js/slider.js"></script>
-	<!-- <script src="./../js/monitor.js"></script> -->
+    <script src="./../js/slider.js"></script>
+    <script src="./../js/monitor.js"></script>
 
 </head>
 
 <body>
 
-	<div id="chart">
-		<input id="slider" type="range" min="1" max="20" value="1" step="1" />
-		<span class="button" id="range">1</span>
-		<span class="button" id="play">></span>
-		<script>plotClusters();</script>
-	</div>
-	<!-- <div id="monitor">
-		<script>plotMonitor();</script>
-	</div> -->
+    <div id="chart">
+        <input id="slider" type="range" min="1" max="20" value="1" step="1" />
+        <span class="button" id="range">1</span>
+        <span class="button" id="play">&#9658</span>
+        <span class="button" id="reset">&#8634</span>
+        <script>
+            plotClusters();
+        </script>
+    </div>
+    <div id="monitor">
+    </div>
+    <div class="information">
+        <table >
+            <tr>
+                <th align="right">Total number of processes</th>
+				<th align="right">:</th>
+                <th id="info1" align="left" style="color:green">Lastname</th>
+            </tr>
+            <tr>
+                <th align="right">Total RAM memory</th>
+				<th align="right">:</th>
+                <th id="info2" align="left"  style="color:green">Lastname</th>
+            </tr>
+            <tr>
+                <th align="right">Total CPU memory</th>
+				<th align="right">:</th>
+                <th id="info3" align="left"  style="color:green">Lastname</th>
+            </tr>
+            <tr>
+                <th align="right">Total I/Os (read + write)</th>
+				<th align="right">:</th>
+                <th id="info4" align="left" style="color:green">Lastname</th>
+            </tr>
+        </table>
+    </div>
 </body>
+
 </html>

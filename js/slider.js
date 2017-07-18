@@ -1,5 +1,17 @@
+var running = true, timer;
+
+$( document ).ready(function() {
+    $("#reset").on("click", function() {
+        d3.select("svg").remove();
+        $("#slider").val(1);
+        $('#range').html(1);
+        plotClusters();
+    });
+});
+
 function plotClusters() {
-    var filename = "./../data/slider_new.json";
+    var filename = "./../data/data.json",
+        filename2 = "./../data/information.json";
 
     var margin = {
             top: 30,
@@ -31,16 +43,74 @@ function plotClusters() {
         .scale(y)
         .orient("left");
 
-    var file;
+    var parseDate = d3.time.format("%Y/%m/%d/%H:%M:%S").parse;
+
+    var file, info;
+
+    $("#play").on("click", function() {
+        running = !running;
+        playSlider();
+    });
+
+    $("#slider").on("change", function() {
+        clearInterval(timer);
+        running = true;
+        $("#range").html($("#slider").val());
+        $("#play").html("&#9658");
+        update();
+    });
+
     d3.json(filename, function(error, data) {
-        file = data
-        render(file, data, "parent", margin, width, height, x, y, div, fill, xAxis, yAxis);
+        d3.json(filename2, function(error, data2) {
+
+            Object.keys(data2).forEach(function(key) {
+                info = data2[key];
+                info.forEach(function(d) {
+                    d.date = parseDate(d.date);
+                })
+            });
+
+            info = plotMonitor();
+            info.unshift(data2);
+            info.push("");
+
+            var info_file = data2;
+
+            file = data
+            renderCluster(file, data, "parent", margin, width, height, x, y, div, fill, xAxis, yAxis, info, info_file);
+        });
     });
 }
 
-function render(file, data, child, margin, width, height, x, y, div, fill, xAxis, yAxis) {
+function renderCluster(file, data, child, margin, width, height, x, y, div, fill, xAxis, yAxis, info, info_file) {
 
-    d3.select("svg").remove();
+    var psum = 0, running = false;
+    var ramsum = d3.sum(data, function(d) {
+            return +d.ram1
+        }),
+        cpusum = d3.sum(data, function(d) {
+            if ("cpu1" in d) psum++;
+            return +d.cpu1
+        }),
+        iosum = d3.sum(data, function(d) {
+            return +d.io1
+        });
+    $(".information #info2").html(ramsum + "%");
+    $(".information #info3").html(cpusum + "%");
+    $(".information #info4").html(iosum);
+    $(".information #info1").html(psum);
+
+    if (ramsum >= 50)
+        document.getElementById("info2").style.color = "red";
+    else
+        document.getElementById("info2").style.color = "green";
+
+    if (cpusum >= 50)
+        document.getElementById("info3").style.color = "red";
+    else
+        document.getElementById("info3").style.color = "green";
+
+    d3.select("#chart svg").remove();
 
     var zoom = d3.behavior.zoom()
         .x(x)
@@ -145,13 +215,19 @@ function render(file, data, child, margin, width, height, x, y, div, fill, xAxis
         })
         .on("dblclick", function(d) {
             reset();
-            var index = $("#slider").val(), c = "child";
-            if(c in d){
-                render(file, JSON.parse(d[c]), "child", margin, width, height, x, y, div, fill, xAxis, yAxis, zoom);
+            var index = $("#slider").val(),
+                c = "child";
+            if (c in d && d[c].length > 0) {
+                renderCluster(file, d[c], "child", margin, width, height, x, y, div, fill, xAxis, yAxis, info, info_file);
+            } else {
+                renderCluster(file, file, "parent", margin, width, height, x, y, div, fill, xAxis, yAxis, info, info_file);
             }
-            else{
-                render(file, file, "parent", margin, width, height, x, y, div, fill, xAxis, yAxis, zoom);
-            }
+        })
+        .on("mouseover", function(d) {
+            info[0] = info_file[d.name];
+            info[15] = d.name;
+            if (info_file[d.name].length > 1)
+                renderMonitor(info);
         })
         .style("opacity", function(d) {
             if ("cpu1" in d && !("score1" in d))
@@ -213,10 +289,16 @@ function render(file, data, child, margin, width, height, x, y, div, fill, xAxis
                     val = d.ram1;
                 return y(val);
             })
-        .text(function(d) {
-            if("cpu1" in d)
-                return d.name;
+        .on("mouseover", function(d) {
+            info[0] = info_file[d.name];
+            info[15] = d.name;
+            if (info_file[d.name].length > 1)
+                renderMonitor(info);
         })
+        .text(function(d) {
+            if ("cpu1" in d)
+                return d.name;
+        });
 
     svg.selectAll(".point")
         .data(data)
@@ -241,6 +323,12 @@ function render(file, data, child, margin, width, height, x, y, div, fill, xAxis
             if (!("score1" in d))
                 return "none";
             // return 0;
+        })
+        .on("mouseover", function(d) {
+            info[0] = info_file[d.name];
+            info[15] = d.name;
+            if (info_file[d.name].length > 1)
+                renderMonitor(info);
         })
         .attr("d", d3.svg.symbol().type("triangle-up").size(function(d) {
             var val = 70;
@@ -276,51 +364,6 @@ function render(file, data, child, margin, width, height, x, y, div, fill, xAxis
         .attr("d", "M0,-5L10,0L0,5 L10,0 L0, -5")
         .style("stroke", "#000");
 
-    var running = false;
-    var timer;
-
-    $("#play").on("click", function() {
-
-        var duration = 2000,
-            maxstep = 20,
-            minstep = 1;
-
-        if (running == true) {
-
-            $("#play").html(">");
-            running = false;
-            clearInterval(timer);
-        } else if (running == false) {
-
-            $("#play").html("||");
-
-            sliderValue = $("#slider").val();
-
-            timer = setInterval(function() {
-                if (sliderValue < maxstep) {
-                    sliderValue++;
-                    $("#slider").val(sliderValue);
-                    $('#range').html(sliderValue);
-                } else {
-                    $("#play").html(">");
-                    running = false;
-                }
-                $("#slider").val(sliderValue);
-                update();
-
-            }, duration);
-            running = true;
-        }
-
-    });
-
-    $("#slider").on("change", function() {
-        $("#range").html($("#slider").val());
-        update();
-        clearInterval(timer);
-        $("#play").html(">");
-    });
-
     update = function() {
         var index = $("#slider").val(),
             cpu = "cpu" + index,
@@ -331,6 +374,32 @@ function render(file, data, child, margin, width, height, x, y, div, fill, xAxis
             type = "type" + index,
             io = "io" + index,
             child = "child" + index;
+
+        var psum = 0;
+        var ramsum = d3.sum(data, function(d) {
+                return +d[ram]
+            }),
+            cpusum = d3.sum(data, function(d) {
+                if (cpu in d) psum++;
+                return +d[cpu]
+            }),
+            iosum = d3.sum(data, function(d) {
+                return +d[io]
+            });
+        $(".information #info2").html(ramsum + "%");
+        $(".information #info3").html(cpusum + "%");
+        $(".information #info4").html(iosum);
+        $(".information #info1").html(psum);
+
+        if (ramsum >= 50)
+            document.getElementById("info2").style.color = "red";
+        else
+            document.getElementById("info2").style.color = "green";
+
+        if (cpusum >= 50)
+            document.getElementById("info3").style.color = "red";
+        else
+            document.getElementById("info3").style.color = "green";
 
         d3.select(".yaxis")
             .call(yAxis);
@@ -401,7 +470,7 @@ function render(file, data, child, margin, width, height, x, y, div, fill, xAxis
                     return fill(d[type]);
                 })
             .style("opacity", function(d) {
-                if (ram in d && cpu in d  && !(score in d)) {
+                if (ram in d && cpu in d && !(score in d)) {
                     return 0.8;
                 }
                 return 0;
@@ -455,7 +524,7 @@ function render(file, data, child, margin, width, height, x, y, div, fill, xAxis
             .attr("y",
                 function(d) {
                     if (ram in d)
-                        return y(d[ram])+ 2;
+                        return y(d[ram]) + 2;
                 })
             .text(function(d) {
                 return d.name;
@@ -464,17 +533,16 @@ function render(file, data, child, margin, width, height, x, y, div, fill, xAxis
                 function(d) {
                     if (!(cpu in d))
                         return "none";
-            })
+                })
     };
-
-
-    d3.select("#range").on("click", reset);
 
     function zoomed() {
         update();
         svg.select(".xaxis").call(xAxis);
         svg.select(".yaxis").call(yAxis);
     }
+
+    d3.select("#range").on("click", reset);
 
     function reset() {
         d3.transition().duration(750).tween("zoom", function() {
@@ -485,5 +553,36 @@ function render(file, data, child, margin, width, height, x, y, div, fill, xAxis
                 zoomed();
             };
         });
+    }
+}
+
+function playSlider() {
+
+    var duration = 2000,
+        maxstep = 20,
+        minstep = 1;
+
+    if (running == true) {
+        $("#play").html("&#9658");
+        clearInterval(timer);
+    }
+    else if (running == false) {
+
+        $("#play").html("||");
+
+        sliderValue = $("#slider").val();
+
+        timer = setInterval(function() {
+            if (sliderValue < maxstep) {
+                sliderValue++;
+                $("#slider").val(sliderValue);
+                $('#range').html(sliderValue);
+            } else {
+                $("#play").html("&#9658");
+            }
+            $("#slider").val(sliderValue);
+            update();
+
+        }, duration);
     }
 }
